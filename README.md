@@ -1,2 +1,2 @@
 # mark-lib
-Zsh plugin to easy have privacy now days in linux
+Zsh plugin Mark Lib.
