@@ -1,17 +1,9 @@
 : '
 ------------------------------------------------------------------------------
-         FILE:  mark-passwords
+         FILE:  mark-common
   DESCRIPTION:  oh-my-zsh plugin.
        AUTHOR:  marco treglia markno1.github@gmail.com
       VERSION:  1.0.0
-
-Usage:
-      mark-pssw add name passwords
-          *     list
-          *     show
-          *     remove
-to-do
-          *     modify
 ------------------------------------------------------------------------------
 '
 export TRUE=1
@@ -31,19 +23,20 @@ done
 }
 
 
-function If(){
+If(){
+  all_args=("$@")
   condition=$1
-  file=$2
-  fx_true=$3
-  fx_false=$4
-  $condition $file $fx_true $fx_false
+  fx_true=$2
+  fx_false=$3
+  rest_args=("${all_args[@]:3}")
+  $condition $fx_true $fx_false $rest_args
 }
 
 
 isDir(){
-  file=$1
-  fx_true=$2
-  fx_false=$3
+  fx_true=$1
+  fx_false=$2
+  file=$3
   if [ -d "$file" ]; then
     $fx_true $file
   else
@@ -53,9 +46,9 @@ isDir(){
 
 
 isFile(){
-  file = $1
-  fx_true= $2
-  fx_false = $3
+  fx_true= $1
+  fx_false = $2
+  file = $3
   if [ -f "$file" ]; then
     $fx_true $file
   else
