@@ -46,9 +46,9 @@ isDir(){
 
 
 isFile(){
-  fx_true= $1
-  fx_false = $2
-  file = $3
+  fx_true=$1
+  fx_false=$2
+  file=$3
   if [ -f "$file" ]; then
     $fx_true $file
   else
