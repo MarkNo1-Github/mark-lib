@@ -14,6 +14,8 @@ to-do
           *     modify
 ------------------------------------------------------------------------------
 '
+export TRUE=1
+export FALSE=0
 
 Menu () {
 while getopts 'abf:v' flag; do
@@ -26,4 +28,37 @@ while getopts 'abf:v' flag; do
        exit 1 ;;
   esac
 done
+}
+
+
+function If(){
+  condition=$1
+  file=$2
+  fx_true=$3
+  fx_false=$4
+  $condition $file $fx_true $fx_false
+}
+
+
+isDir(){
+  file=$1
+  fx_true=$2
+  fx_false=$3
+  if [ -d "$file" ]; then
+    $fx_true $file
+  else
+    $fx_false $file
+  fi
+}
+
+
+isFile(){
+  file = $1
+  fx_true= $2
+  fx_false = $3
+  if [ -f "$file" ]; then
+    $fx_true $file
+  else
+    $fx_false $file
+  fi
 }
