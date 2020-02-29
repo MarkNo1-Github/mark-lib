@@ -22,6 +22,12 @@ while getopts 'abf:v' flag; do
 done
 }
 
+beRoot(){
+  if [ $(id -u) != '0' ]; then
+    sudo "$0" "$@"
+    exit $?
+  fi
+}
 
 If(){
   all_args=("$@")
@@ -32,26 +38,45 @@ If(){
   $condition $fx_true $fx_false $rest_args
 }
 
+Nothing(){
+  echo "Nothing to do with this:"
+  echo "$@"
+}
 
 isDir(){
+  all_args=("$@")
   fx_true=$1
   fx_false=$2
   file=$3
+  rest_args=("${all_args[@]:2}")
   if [ -d "$file" ]; then
-    $fx_true $file
+    $fx_true $rest_args
   else
-    $fx_false $file
+    $fx_false $rest_args
   fi
 }
 
 
 isFile(){
+  all_args=("$@")
   fx_true=$1
   fx_false=$2
   file=$3
+  rest_args=("${all_args[@]:2}")
   if [ -f "$file" ]; then
-    $fx_true $file
+    $fx_true $rest_args
   else
-    $fx_false $file
+    $fx_false $rest_args
   fi
+}
+
+sedReplace(){
+  file=$1
+  search=$2
+  replace=$3
+  sed -i "s~${search}~${replace}~" $file
+}
+
+Replace(){
+  If isFile sedReplace Nothing $1 $2 $3
 }
